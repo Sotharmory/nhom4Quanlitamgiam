@@ -1,0 +1,87 @@
+@startuml "Sơ đồ Deployment - Hệ thống Quản lý Tù nhân Trại giam"
+
+title Sơ đồ Deployment - Hệ thống Quản lý Tù nhân Trại giam
+
+node "Client Machine" {
+    artifact "QuanLyTuNhanTraiGiam.jar" as JAR
+    artifact "Java Runtime Environment (JRE 23)" as JRE
+    artifact "System Libraries" as SL {
+        artifact "Java Swing" as Swing
+        artifact "JAXB Libraries" as JAXBLib
+        artifact "JCalendar Library" as JCalLib
+        artifact "KGradientPanel Library" as KGPanel
+    }
+}
+
+node "File System" {
+    database "Data Files" as DataFiles {
+        database "Prisoners.xml" as PrisonersDB
+        database "Jails.xml" as JailsDB
+        database "Visits.xml" as VisitsDB
+    }
+    
+    folder "Configuration Files" as ConfigFiles {
+        file "application.properties" as AppProps
+        file "log4j.properties" as LogProps
+    }
+    
+    folder "Image Files" as ImageFiles {
+        file "prisoner_photos/" as Photos
+        file "system_images/" as SysImages
+    }
+}
+
+node "Network" {
+    cloud "Backup Storage" as Backup {
+        database "Backup XML Files" as BackupXML
+        database "System Logs" as Logs
+    }
+}
+
+' Relationships
+JAR --> JRE : requires
+JAR --> Swing : uses
+JAR --> JAXBLib : uses
+JAR --> JCalLib : uses
+JAR --> KGPanel : uses
+
+JAR --> PrisonersDB : reads/writes
+JAR --> JailsDB : reads/writes
+JAR --> VisitsDB : reads/writes
+
+JAR --> AppProps : reads
+JAR --> LogProps : reads
+
+JAR --> Photos : reads/writes
+JAR --> SysImages : reads
+
+PrisonersDB --> BackupXML : backup
+JailsDB --> BackupXML : backup
+VisitsDB --> BackupXML : backup
+
+JAR --> Logs : writes
+
+' System Requirements
+note right of JRE
+  **System Requirements:**
+  - Windows 10/11, macOS, Linux
+  - Minimum 4GB RAM
+  - 500MB free disk space
+  - Java 23 or higher
+end note
+
+note right of DataFiles
+  **Data Storage:**
+  - XML format for portability
+  - Automatic backup
+  - Data validation
+end note
+
+note right of Backup
+  **Backup Strategy:**
+  - Daily automatic backup
+  - Manual backup option
+  - Version control
+end note
+
+@enduml 

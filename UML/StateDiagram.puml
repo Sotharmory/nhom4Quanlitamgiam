@@ -1,0 +1,84 @@
+@startuml "Sơ đồ State - Trạng thái Tù nhân và Thăm nuôi"
+
+title Sơ đồ State - Trạng thái Tù nhân và Thăm nuôi
+
+' State Diagram cho Tù nhân
+state "Tù nhân" as PrisonerState {
+    state "Đang giam giữ" as InJail {
+        state "Hành vi tốt" as GoodBehavior
+        state "Hành vi xấu" as BadBehavior
+        state "Đang chờ xét xử" as PendingTrial
+    }
+    
+    state "Đã được thả" as Released
+    state "Đã chuyển trại" as Transferred
+    state "Đã tử vong" as Deceased
+}
+
+' State Diagram cho Thăm nuôi
+state "Thăm nuôi" as VisitState {
+    state "Đã lên lịch" as Scheduled {
+        state "Chờ xác nhận" as PendingConfirmation
+        state "Đã xác nhận" as Confirmed
+    }
+    
+    state "Đang diễn ra" as InProgress
+    state "Đã hoàn thành" as Completed
+    state "Đã hủy" as Cancelled
+    state "Bị từ chối" as Rejected
+}
+
+' State Diagram cho Trại giam
+state "Trại giam" as JailState {
+    state "Hoạt động bình thường" as Normal {
+        state "Còn chỗ trống" as Available
+        state "Gần đầy" as NearFull
+    }
+    
+    state "Quá tải" as OverCapacity
+    state "Đang bảo trì" as Maintenance
+    state "Đã đóng cửa" as Closed
+}
+
+' Transitions cho Tù nhân
+[*] --> InJail : Nhập trại
+InJail --> GoodBehavior : Cải thiện hành vi
+InJail --> BadBehavior : Vi phạm nội quy
+GoodBehavior --> BadBehavior : Vi phạm
+BadBehavior --> GoodBehavior : Cải thiện
+InJail --> PendingTrial : Chờ xét xử
+PendingTrial --> InJail : Kết thúc xét xử
+InJail --> Released : Hết hạn án
+InJail --> Transferred : Chuyển trại
+InJail --> Deceased : Tử vong
+Released --> [*]
+Transferred --> [*]
+Deceased --> [*]
+
+' Transitions cho Thăm nuôi
+[*] --> Scheduled : Đăng ký thăm nuôi
+Scheduled --> PendingConfirmation : Gửi yêu cầu
+PendingConfirmation --> Confirmed : Xác nhận
+PendingConfirmation --> Rejected : Từ chối
+Confirmed --> InProgress : Bắt đầu thăm
+InProgress --> Completed : Kết thúc thăm
+Scheduled --> Cancelled : Hủy lịch
+Confirmed --> Cancelled : Hủy lịch
+Completed --> [*]
+Cancelled --> [*]
+Rejected --> [*]
+
+' Transitions cho Trại giam
+[*] --> Normal : Khởi tạo trại
+Normal --> Available : Còn chỗ trống
+Normal --> NearFull : Gần đầy
+NearFull --> OverCapacity : Vượt quá sức chứa
+OverCapacity --> NearFull : Giảm số lượng
+NearFull --> Available : Giảm số lượng
+Available --> NearFull : Tăng số lượng
+Normal --> Maintenance : Bảo trì
+Maintenance --> Normal : Hoàn thành bảo trì
+Normal --> Closed : Đóng cửa
+Closed --> [*]
+
+@enduml 

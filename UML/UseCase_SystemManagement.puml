@@ -1,0 +1,54 @@
+@startuml "Sơ đồ Use Case - Quản lý Hệ thống"
+
+title Sơ đồ Use Case - Quản lý Hệ thống
+
+left to right direction
+
+actor "Quản lý viên" as Admin
+actor "Nhân viên trại giam" as Staff
+
+rectangle "Hệ thống Quản lý Hệ thống" {
+    usecase "Sao lưu dữ liệu" as UC1
+    usecase "Khôi phục dữ liệu" as UC2
+    usecase "Quản lý người dùng" as UC3
+    usecase "Cấu hình hệ thống" as UC4
+    usecase "Xem nhật ký hệ thống" as UC5
+    usecase "Kiểm tra hiệu suất" as UC6
+}
+
+' Quan hệ với Admin
+Admin --> UC1
+Admin --> UC2
+Admin --> UC3
+Admin --> UC4
+Admin --> UC5
+Admin --> UC6
+
+' Quan hệ với Staff
+Staff --> UC5
+Staff --> UC6
+
+' Include relationships
+UC1 ..> UC5 : <<include>>
+
+note right of UC1
+  Sao lưu: Dữ liệu XML,
+  cấu hình, nhật ký
+end note
+
+note right of UC3
+  Thêm/xóa/sửa người dùng,
+  phân quyền truy cập
+end note
+
+note right of UC4
+  Cấu hình: Giao diện,
+  bảo mật, thông báo
+end note
+
+note right of UC5
+  Nhật ký: Đăng nhập,
+  thao tác, lỗi hệ thống
+end note
+
+@enduml 

@@ -1,0 +1,59 @@
+@startuml "Sơ đồ Use Case - Quản lý Thăm nuôi"
+
+title Sơ đồ Use Case - Quản lý Thăm nuôi
+
+left to right direction
+
+actor "Quản lý viên" as Admin
+actor "Nhân viên trại giam" as Staff
+
+rectangle "Hệ thống Quản lý Thăm nuôi" {
+    usecase "Đăng ký lịch thăm nuôi" as UC1
+    usecase "Cập nhật lịch thăm nuôi" as UC2
+    usecase "Hủy lịch thăm nuôi" as UC3
+    usecase "Xem danh sách thăm nuôi" as UC4
+    usecase "Tìm kiếm lịch thăm nuôi" as UC5
+    usecase "Cập nhật trạng thái thăm nuôi" as UC6
+    usecase "Xuất báo cáo thăm nuôi" as UC7
+}
+
+' Quan hệ với Admin
+Admin --> UC1
+Admin --> UC2
+Admin --> UC3
+Admin --> UC4
+Admin --> UC5
+Admin --> UC6
+Admin --> UC7
+
+' Quan hệ với Staff
+Staff --> UC1
+Staff --> UC2
+Staff --> UC3
+Staff --> UC4
+Staff --> UC5
+Staff --> UC6
+
+' Include relationships
+UC1 ..> UC6 : <<include>>
+UC2 ..> UC6 : <<include>>
+
+' Extend relationships
+UC4 ..> UC5 : <<extend>>
+
+note right of UC1
+  Thông tin: Tù nhân, người thăm,
+  ngày giờ, mục đích thăm
+end note
+
+note right of UC6
+  Trạng thái: Scheduled,
+  Completed, Cancelled
+end note
+
+note right of UC7
+  Xuất báo cáo định kỳ
+  hoặc theo yêu cầu
+end note
+
+@enduml 

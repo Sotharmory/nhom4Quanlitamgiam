@@ -1,0 +1,56 @@
+@startuml "Sơ đồ Use Case - Quản lý Trại giam"
+
+title Sơ đồ Use Case - Quản lý Trại giam
+
+left to right direction
+
+actor "Quản lý viên" as Admin
+actor "Nhân viên trại giam" as Staff
+
+rectangle "Hệ thống Quản lý Trại giam" {
+    usecase "Thêm trại giam mới" as UC1
+    usecase "Cập nhật thông tin trại giam" as UC2
+    usecase "Xóa trại giam" as UC3
+    usecase "Xem danh sách trại giam" as UC4
+    usecase "Xem thống kê sức chứa" as UC5
+    usecase "Cảnh báo quá tải" as UC6
+    usecase "Xuất báo cáo trại giam" as UC7
+}
+
+' Quan hệ với Admin
+Admin --> UC1
+Admin --> UC2
+Admin --> UC3
+Admin --> UC4
+Admin --> UC5
+Admin --> UC6
+Admin --> UC7
+
+' Quan hệ với Staff
+Staff --> UC4
+Staff --> UC5
+Staff --> UC6
+
+' Include relationships
+UC1 ..> UC6 : <<include>>
+UC2 ..> UC6 : <<include>>
+
+' Extend relationships
+UC4 ..> UC5 : <<extend>>
+
+note right of UC1
+  Thông tin: Tên trại giam,
+  địa chỉ, sức chứa
+end note
+
+note right of UC3
+  Chỉ xóa được khi
+  không có tù nhân
+end note
+
+note right of UC6
+  Tự động cảnh báo
+  khi trại giam quá tải
+end note
+
+@enduml 

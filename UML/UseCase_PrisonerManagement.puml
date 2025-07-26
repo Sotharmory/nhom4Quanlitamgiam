@@ -1,0 +1,56 @@
+@startuml "Sơ đồ Use Case - Quản lý Tù nhân"
+
+title Sơ đồ Use Case - Quản lý Tù nhân
+
+left to right direction
+
+actor "Quản lý viên" as Admin
+actor "Nhân viên trại giam" as Staff
+
+rectangle "Hệ thống Quản lý Tù nhân" {
+    usecase "Thêm tù nhân mới" as UC1
+    usecase "Cập nhật thông tin tù nhân" as UC2
+    usecase "Xóa tù nhân" as UC3
+    usecase "Tìm kiếm tù nhân" as UC4
+    usecase "Xem danh sách tù nhân" as UC5
+    usecase "Upload ảnh chân dung" as UC6
+    usecase "Xuất báo cáo tù nhân" as UC7
+}
+
+' Quan hệ với Admin
+Admin --> UC1
+Admin --> UC2
+Admin --> UC3
+Admin --> UC4
+Admin --> UC5
+Admin --> UC6
+Admin --> UC7
+
+' Quan hệ với Staff
+Staff --> UC4
+Staff --> UC5
+Staff --> UC6
+
+' Include relationships
+UC1 ..> UC6 : <<include>>
+UC2 ..> UC6 : <<include>>
+
+' Extend relationships
+UC4 ..> UC5 : <<extend>>
+
+note right of UC1
+  Thông tin: Họ tên, ngày sinh,
+  địa chỉ, tội danh, thời hạn
+end note
+
+note right of UC3
+  Chỉ Admin mới có
+  quyền xóa tù nhân
+end note
+
+note right of UC7
+  Xuất báo cáo định kỳ
+  hoặc theo yêu cầu
+end note
+
+@enduml 

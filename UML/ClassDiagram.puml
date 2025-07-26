@@ -1,0 +1,320 @@
+@startuml "Sơ đồ Class - Hệ thống Quản lý Tù nhân Trại giam"
+
+title Sơ đồ Class - Hệ thống Quản lý Tù nhân Trại giam
+
+' Entity Classes
+abstract class Person {
+    # int id
+    # String name
+    # Date birthday
+    # String address
+    + Person()
+    + Person(id: int, name: String, birthday: Date, address: String)
+    + getId(): int
+    + setId(id: int): void
+    + getName(): String
+    + setName(name: String): void
+    + getLastName(): String
+    + getFirstName(): String
+    + getBirthday(): Date
+    + setBirthday(birthday: Date): void
+    + getAddress(): String
+    + setAddress(address: String): void
+}
+
+class Prisoner {
+    - String jailId
+    - String prisonerId
+    - String crime
+    - Date sentenceStartDate
+    - Date sentenceEndDate
+    - String behavior
+    - byte[] picture
+    + Prisoner()
+    + Prisoner(id: int, name: String, birthday: Date, address: String, jailId: String, prisonerId: String, crime: String, sentenceStartDate: Date, sentenceEndDate: Date, behavior: String, image: byte[]): void
+    + getPrisonerId(): String
+    + setPrisonerId(prisonerId: String): void
+    + getJailId(): String
+    + setJailId(jailId: String): void
+    + getCrime(): String
+    + setCrime(crime: String): void
+    + getSentenceStartDate(): Date
+    + setSentenceStartDate(date: Date): void
+    + getSentenceEndDate(): Date
+    + setSentenceEndDate(date: Date): void
+    + getBehavior(): String
+    + setBehavior(behavior: String): void
+    + getImage(): byte[]
+    + setImage(image: byte[]): void
+    + toString(): String
+}
+
+class Jail {
+    - int id
+    - String jailId
+    - String name
+    - String location
+    - int capacity
+    - int currentInmates
+    + Jail()
+    + Jail(id: int, jailId: String, name: String, location: String, capacity: int): void
+    + getId(): int
+    + setId(id: int): void
+    + getJailId(): String
+    + setJailId(jailId: String): void
+    + getName(): String
+    + setName(name: String): void
+    + getLocation(): String
+    + setLocation(location: String): void
+    + getCapacity(): int
+    + setCapacity(capacity: int): void
+    + getCurrentInmates(): int
+    + setCurrentInmates(count: int): void
+    + incrementInmates(): void
+    + decrementInmates(): void
+    + isOverCapacity(): boolean
+    + updateCurrentInmates(prisoners: List<Prisoner>): void
+}
+
+class Visit {
+    - int id
+    - String prisonerId
+    - String visitorName
+    - String relationship
+    - String visitorId
+    - String visitorPhone
+    - Date visitDate
+    - String visitTimeSlot
+    - String visitPurpose
+    - String status
+    + Visit()
+    + Visit(id: int, prisonerId: String, visitorName: String, relationship: String, visitorId: String, visitorPhone: String, visitDate: Date, visitTimeSlot: String, visitPurpose: String, status: String): void
+    + getId(): int
+    + setId(id: int): void
+    + getPrisonerId(): String
+    + setPrisoner(prisonerId: String): void
+    + getVisitorName(): String
+    + setVisitorName(name: String): void
+    + getRelationship(): String
+    + setRelationship(relationship: String): void
+    + getVisitorId(): String
+    + setVisitorId(id: String): void
+    + getVisitorPhone(): String
+    + setVisitorPhone(phone: String): void
+    + getVisitDate(): Date
+    + setVisitDate(date: Date): void
+    + getVisitTimeSlot(): String
+    + setVisitTimeSlot(timeSlot: String): void
+    + getVisitPurpose(): String
+    + setVisitPurpose(purpose: String): void
+    + getStatus(): String
+    + setStatus(status: String): void
+}
+
+class User {
+    - String userName
+    - String password
+    + User()
+    + User(userName: String, password: String): void
+    + getUserName(): String
+    + setUserName(userName: String): void
+    + getPassword(): String
+    + setPassword(password: String): void
+}
+
+' XML Classes
+class PrisonerXML {
+    - List<Prisoner> prisoners
+    + PrisonerXML()
+    + getPrisoners(): List<Prisoner>
+    + setPrisoners(prisoners: List<Prisoner>): void
+}
+
+class JailXML {
+    - List<Jail> jails
+    + JailXML()
+    + getJails(): List<Jail>
+    + setJails(jails: List<Jail>): void
+}
+
+class VisitXML {
+    - List<Visit> visits
+    + VisitXML()
+    + getVisits(): List<Visit>
+    + setVisits(visits: List<Visit>): void
+}
+
+' Controller Classes
+class MainController {
+    - LoginView loginView
+    - PrisonerView prisonerView
+    - VisitView visitView
+    - JailView jailView
+    - MainView mainView
+    + MainController(view: MainView): void
+    + showMainView(): void
+    - class ChoosePrisonerListener
+    - class ChooseVisitListener
+    - class ChooseJailListener
+}
+
+class LoginController {
+    - LoginView view
+    + LoginController(view: LoginView): void
+    + showLoginView(): void
+    + handleLogin(username: String, password: String): boolean
+    + handleLogout(): void
+}
+
+class PrisonerController {
+    - PrisonerView view
+    - List<Prisoner> prisoners
+    + PrisonerController(view: PrisonerView): void
+    + showPrisonerView(): void
+    + addPrisoner(prisoner: Prisoner): void
+    + updatePrisoner(prisoner: Prisoner): void
+    + deletePrisoner(id: int): void
+    + searchPrisoner(criteria: String): List<Prisoner>
+    + loadPrisoners(): void
+    + savePrisoners(): void
+}
+
+class JailController {
+    - JailView view
+    - List<Jail> jails
+    + JailController(view: JailView): void
+    + showJailView(): void
+    + addJail(jail: Jail): void
+    + updateJail(jail: Jail): void
+    + deleteJail(id: int): void
+    + loadJails(): void
+    + saveJails(): void
+    + updateJailCapacity(): void
+}
+
+class VisitController {
+    - VisitView view
+    - List<Visit> visits
+    + VisitController(view: VisitView): void
+    + showVisitView(): void
+    + addVisit(visit: Visit): void
+    + updateVisit(visit: Visit): void
+    + deleteVisit(id: int): void
+    + searchVisit(criteria: String): List<Visit>
+    + loadVisits(): void
+    + saveVisits(): void
+}
+
+' View Classes
+class LoginView {
+    - JTextField txtUsername
+    - JPasswordField txtPassword
+    - JButton btnLogin
+    - JButton btnCancel
+    + LoginView(): void
+    + setVisible(visible: boolean): void
+    + getUsername(): String
+    + getPassword(): String
+    + showError(message: String): void
+    + clearFields(): void
+}
+
+class MainView {
+    - JButton btnPrisoner
+    - JButton btnVisit
+    - JButton btnJail
+    - JButton btnLogout
+    + MainView(): void
+    + setVisible(visible: boolean): void
+    + addChoosePrisonerListener(listener: ActionListener): void
+    + addChooseVisitListener(listener: ActionListener): void
+    + addChooseJailListener(listener: ActionListener): void
+    + addLogoutListener(listener: ActionListener): void
+}
+
+class PrisonerView {
+    - JTable tblPrisoners
+    - JTextField txtSearch
+    - JButton btnAdd
+    - JButton btnEdit
+    - JButton btnDelete
+    - JButton btnBack
+    + PrisonerView(): void
+    + setVisible(visible: boolean): void
+    + loadPrisoners(prisoners: List<Prisoner>): void
+    + getSelectedPrisoner(): Prisoner
+    + showAddDialog(): void
+    + showEditDialog(prisoner: Prisoner): void
+    + showDeleteConfirm(): boolean
+    + getSearchText(): String
+}
+
+class JailView {
+    - JTable tblJails
+    - JButton btnAdd
+    - JButton btnEdit
+    - JButton btnDelete
+    - JButton btnBack
+    + JailView(): void
+    + setVisible(visible: boolean): void
+    + loadJails(jails: List<Jail>): void
+    + getSelectedJail(): Jail
+    + showAddDialog(): void
+    + showEditDialog(jail: Jail): void
+    + showDeleteConfirm(): boolean
+}
+
+class VisitView {
+    - JTable tblVisits
+    - JTextField txtSearch
+    - JButton btnAdd
+    - JButton btnEdit
+    - JButton btnDelete
+    - JButton btnBack
+    + VisitView(): void
+    + setVisible(visible: boolean): void
+    + loadVisits(visits: List<Visit>): void
+    + getSelectedVisit(): Visit
+    + showAddDialog(): void
+    + showEditDialog(visit: Visit): void
+    + showDeleteConfirm(): boolean
+    + getSearchText(): String
+}
+
+' Utility Classes
+class FileUtils {
+    + {static} saveToXML(data: Object, filename: String): void
+    + {static} loadFromXML(filename: String, classType: Class): Object
+    + {static} validateFile(filename: String): boolean
+    + {static} backupFile(filename: String): void
+}
+
+' Relationships
+Person <|-- Prisoner
+MainController --> MainView
+MainController --> PrisonerView
+MainController --> VisitView
+MainController --> JailView
+MainController --> LoginView
+
+LoginController --> LoginView
+PrisonerController --> PrisonerView
+JailController --> JailView
+VisitController --> VisitView
+
+PrisonerController --> PrisonerXML
+JailController --> JailXML
+VisitController --> VisitXML
+
+PrisonerXML --> Prisoner
+JailXML --> Jail
+VisitXML --> Visit
+
+Prisoner --> Jail
+Visit --> Prisoner
+
+FileUtils --> PrisonerXML
+FileUtils --> JailXML
+FileUtils --> VisitXML
+
+@enduml 

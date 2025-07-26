@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<Visits>
+    <visits>
+        <id>1</id>
+        <prisonerId>Abc123</prisonerId>
+        <visitorName>NVA</visitorName>
+        <relationship>Anh</relationship>
+        <visitorId>abcde</visitorId>
+        <visitorPhone>092233322244</visitorPhone>
+        <visitDate>2025-07-30T00:00:00+07:00</visitDate>
+        <visitTimeSlot>8:00-9:00</visitTimeSlot>
+        <visitPurpose>Trò chuyện</visitPurpose>
+        <status>Chưa diễn ra</status>
+    </visits>
+    <visits>
+        <id>2</id>
+        <prisonerId>Abc147</prisonerId>
+        <visitorName>NVC</visitorName>
+        <relationship>Chị</relationship>
+        <visitorId>abbdds</visitorId>
+        <visitorPhone>092233666443</visitorPhone>
+        <visitDate>2025-07-01T00:00:00+07:00</visitDate>
+        <visitTimeSlot>8:00-9:00</visitTimeSlot>
+        <visitPurpose>Trò chuyện</visitPurpose>
+        <status>Đã diễn ra</status>
+    </visits>
+</Visits>

@@ -1,0 +1,55 @@
+@startuml "Sơ đồ Use Case - Báo cáo và Thống kê"
+
+title Sơ đồ Use Case - Báo cáo và Thống kê
+
+left to right direction
+
+actor "Quản lý viên" as Admin
+actor "Nhân viên trại giam" as Staff
+
+rectangle "Hệ thống Báo cáo và Thống kê" {
+    usecase "Xem thống kê tổng quan" as UC1
+    usecase "Xuất báo cáo tù nhân" as UC2
+    usecase "Xuất báo cáo thăm nuôi" as UC3
+    usecase "Xem biểu đồ thống kê" as UC4
+    usecase "Thống kê theo trại giam" as UC5
+    usecase "Báo cáo tình trạng quá tải" as UC6
+}
+
+' Quan hệ với Admin
+Admin --> UC1
+Admin --> UC2
+Admin --> UC3
+Admin --> UC4
+Admin --> UC5
+Admin --> UC6
+
+' Quan hệ với Staff
+Staff --> UC1
+Staff --> UC4
+Staff --> UC5
+Staff --> UC6
+
+' Include relationships
+UC1 ..> UC5 : <<include>>
+
+' Extend relationships
+UC1 ..> UC4 : <<extend>>
+UC5 ..> UC6 : <<extend>>
+
+note right of UC1
+  Thống kê: Tổng số tù nhân,
+  trại giam, lượt thăm nuôi
+end note
+
+note right of UC4
+  Biểu đồ: Cột, tròn, đường,
+  phân tích xu hướng
+end note
+
+note right of UC6
+  Cảnh báo khi trại giam
+  vượt quá sức chứa
+end note
+
+@enduml 

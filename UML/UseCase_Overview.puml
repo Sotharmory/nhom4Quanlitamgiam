@@ -1,0 +1,73 @@
+@startuml "Sơ đồ Use Case Tổng quan - Hệ thống Quản lý Tù nhân Trại giam"
+
+title Sơ đồ Use Case Tổng quan - Hệ thống Quản lý Tù nhân Trại giam
+
+left to right direction
+
+actor "Quản lý viên" as Admin
+actor "Nhân viên trại giam" as Staff
+
+rectangle "Hệ thống Quản lý Tù nhân Trại giam" {
+    package "Xác thực" {
+        usecase "Đăng nhập hệ thống" as UC_AUTH
+    }
+    
+    package "Quản lý Tù nhân" {
+        usecase "Quản lý thông tin tù nhân" as UC_PRISONER
+    }
+    
+    package "Quản lý Trại giam" {
+        usecase "Quản lý thông tin trại giam" as UC_JAIL
+    }
+    
+    package "Quản lý Thăm nuôi" {
+        usecase "Lập lịch thăm nuôi" as UC_VISIT
+    }
+    
+    package "Báo cáo" {
+        usecase "Xem thống kê tổng quan" as UC_STATS
+    }
+    
+    package "Hệ thống" {
+        usecase "Sao lưu dữ liệu" as UC_BACKUP
+    }
+}
+
+' Quan hệ với Admin (toàn quyền)
+Admin --> UC_AUTH
+Admin --> UC_PRISONER
+Admin --> UC_JAIL
+Admin --> UC_VISIT
+Admin --> UC_STATS
+Admin --> UC_BACKUP
+
+' Quan hệ với Staff (quyền hạn chế)
+Staff --> UC_AUTH
+Staff --> UC_PRISONER
+Staff --> UC_JAIL
+Staff --> UC_VISIT
+Staff --> UC_STATS
+
+' Include relationships chính
+UC_PRISONER ..> UC_JAIL : <<include>>
+UC_VISIT ..> UC_PRISONER : <<include>>
+UC_STATS ..> UC_PRISONER : <<include>>
+UC_STATS ..> UC_JAIL : <<include>>
+UC_STATS ..> UC_VISIT : <<include>>
+
+note right of Admin
+  **Quản lý viên:**
+  - Toàn quyền hệ thống
+  - Quản lý người dùng
+  - Cấu hình hệ thống
+  - Xuất báo cáo
+end note
+
+note right of Staff
+  **Nhân viên trại giam:**
+  - Quyền hạn chế
+  - Không thể xóa dữ liệu
+  - Không thể cấu hình hệ thống
+end note
+
+@enduml 

@@ -1,0 +1,109 @@
+@startuml "Sơ đồ Sequence - Luồng Đăng nhập và Quản lý Tù nhân"
+
+title Sơ đồ Sequence - Luồng Đăng nhập và Quản lý Tù nhân
+
+actor User
+participant "LoginView" as LV
+participant "LoginController" as LC
+participant "MainView" as MV
+participant "MainController" as MC
+participant "PrisonerView" as PV
+participant "PrisonerController" as PC
+participant "PrisonerXML" as PXML
+participant "FileUtils" as FU
+
+== Đăng nhập hệ thống ==
+User -> LV: Nhập username/password
+LV -> LC: handleLogin(username, password)
+LC -> LC: validateCredentials()
+alt Thành công
+    LC -> MV: showMainView()
+    MV -> User: Hiển thị màn hình chính
+else Thất bại
+    LC -> LV: showError("Sai thông tin đăng nhập")
+    LV -> User: Hiển thị thông báo lỗi
+end
+
+== Chọn quản lý tù nhân ==
+User -> MV: Click "Quản lý Tù nhân"
+MV -> MC: ChoosePrisonerListener.actionPerformed()
+MC -> PV: new PrisonerView()
+MC -> PC: new PrisonerController(PV)
+MC -> PC: showPrisonerView()
+PC -> PV: setVisible(true)
+PV -> User: Hiển thị màn hình quản lý tù nhân
+MC -> MV: setVisible(false)
+
+== Tải danh sách tù nhân ==
+PC -> PC: loadPrisoners()
+PC -> PXML: getPrisoners()
+PXML -> FU: loadFromXML("Prisoners.xml")
+FU -> PXML: return List<Prisoner>
+PXML -> PC: return prisoners
+PC -> PV: loadPrisoners(prisoners)
+PV -> User: Hiển thị danh sách tù nhân
+
+== Thêm tù nhân mới ==
+User -> PV: Click "Thêm"
+PV -> PV: showAddDialog()
+User -> PV: Nhập thông tin tù nhân
+User -> PV: Click "Lưu"
+PV -> PC: addPrisoner(prisoner)
+PC -> PC: validatePrisonerData()
+PC -> PXML: getPrisoners()
+PXML -> PC: return currentPrisoners
+PC -> PC: addPrisonerToList()
+PC -> PXML: setPrisoners(updatedList)
+PC -> FU: saveToXML(prisonerXML, "Prisoners.xml")
+PC -> PV: loadPrisoners(updatedList)
+PV -> User: Hiển thị danh sách đã cập nhật
+
+== Tìm kiếm tù nhân ==
+User -> PV: Nhập từ khóa tìm kiếm
+User -> PV: Click "Tìm kiếm"
+PV -> PC: searchPrisoner(searchText)
+PC -> PC: filterPrisonersByCriteria()
+PC -> PV: loadPrisoners(filteredList)
+PV -> User: Hiển thị kết quả tìm kiếm
+
+== Cập nhật thông tin tù nhân ==
+User -> PV: Chọn tù nhân từ danh sách
+User -> PV: Click "Sửa"
+PV -> PC: getSelectedPrisoner()
+PC -> PV: return selectedPrisoner
+PV -> PV: showEditDialog(prisoner)
+User -> PV: Sửa thông tin
+User -> PV: Click "Cập nhật"
+PV -> PC: updatePrisoner(updatedPrisoner)
+PC -> PC: validatePrisonerData()
+PC -> PXML: getPrisoners()
+PC -> PC: updatePrisonerInList()
+PC -> PXML: setPrisoners(updatedList)
+PC -> FU: saveToXML(prisonerXML, "Prisoners.xml")
+PC -> PV: loadPrisoners(updatedList)
+PV -> User: Hiển thị danh sách đã cập nhật
+
+== Xóa tù nhân ==
+User -> PV: Chọn tù nhân từ danh sách
+User -> PV: Click "Xóa"
+PV -> PV: showDeleteConfirm()
+alt Xác nhận xóa
+    PV -> PC: deletePrisoner(prisonerId)
+    PC -> PXML: getPrisoners()
+    PC -> PC: removePrisonerFromList()
+    PC -> PXML: setPrisoners(updatedList)
+    PC -> FU: saveToXML(prisonerXML, "Prisoners.xml")
+    PC -> PV: loadPrisoners(updatedList)
+    PV -> User: Hiển thị danh sách đã cập nhật
+else Hủy xóa
+    PV -> User: Giữ nguyên danh sách
+end
+
+== Quay về màn hình chính ==
+User -> PV: Click "Quay lại"
+PV -> MC: BackToMainListener.actionPerformed()
+MC -> MV: setVisible(true)
+MV -> User: Hiển thị màn hình chính
+MC -> PV: setVisible(false)
+
+@enduml 

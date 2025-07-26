@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<Jails>
+    <jails>
+        <capacity>100</capacity>
+        <currentInmates>1</currentInmates>
+        <id>1</id>
+        <jailId>HN_A_1</jailId>
+        <location>Hà Nội</location>
+        <name>Nhà Tù A</name>
+    </jails>
+    <jails>
+        <capacity>100</capacity>
+        <currentInmates>0</currentInmates>
+        <id>2</id>
+        <jailId>HN_B_1</jailId>
+        <location>Hà Nội</location>
+        <name>Nhà Tù B</name>
+    </jails>
+    <jails>
+        <capacity>200</capacity>
+        <currentInmates>1</currentInmates>
+        <id>3</id>
+        <jailId>HCM_C_1</jailId>
+        <location>Thành Phố Hồ Chí Minh</location>
+        <name>Nhà Tù C</name>
+    </jails>
+</Jails>

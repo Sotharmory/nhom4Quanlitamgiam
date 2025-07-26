@@ -1,0 +1,109 @@
+@startuml "Sơ đồ Use Case - Hệ thống Quản lý Tù nhân Trại giam"
+
+!define RECTANGLE class
+
+title Sơ đồ Use Case - Hệ thống Quản lý Tù nhân Trại giam
+
+left to right direction
+
+actor "Quản lý viên" as Admin
+actor "Nhân viên trại giam" as Staff
+
+rectangle "Hệ thống Quản lý Tù nhân Trại giam" {
+    usecase "Đăng nhập hệ thống" as UC1
+    usecase "Đăng xuất" as UC2
+    
+    package "Quản lý Tù nhân" {
+        usecase "Thêm tù nhân mới" as UC3
+        usecase "Cập nhật thông tin tù nhân" as UC4
+        usecase "Xóa tù nhân" as UC5
+        usecase "Tìm kiếm tù nhân" as UC6
+        usecase "Xem danh sách tù nhân" as UC7
+        usecase "Xem chi tiết tù nhân" as UC8
+        usecase "Upload ảnh tù nhân" as UC9
+    }
+    
+    package "Quản lý Trại giam" {
+        usecase "Thêm trại giam mới" as UC10
+        usecase "Cập nhật thông tin trại giam" as UC11
+        usecase "Xóa trại giam" as UC12
+        usecase "Xem danh sách trại giam" as UC13
+        usecase "Xem thống kê sức chứa" as UC14
+        usecase "Kiểm tra tình trạng quá tải" as UC15
+    }
+    
+    package "Quản lý Thăm nuôi" {
+        usecase "Đăng ký lịch thăm nuôi" as UC16
+        usecase "Cập nhật lịch thăm nuôi" as UC17
+        usecase "Hủy lịch thăm nuôi" as UC18
+        usecase "Xem danh sách thăm nuôi" as UC19
+        usecase "Tìm kiếm lịch thăm nuôi" as UC20
+        usecase "Cập nhật trạng thái thăm nuôi" as UC21
+    }
+    
+    package "Báo cáo và Thống kê" {
+        usecase "Xem thống kê tổng quan" as UC22
+        usecase "Xuất báo cáo tù nhân" as UC23
+        usecase "Xuất báo cáo thăm nuôi" as UC24
+        usecase "Xem biểu đồ thống kê" as UC25
+    }
+}
+
+' Quan hệ với Admin
+Admin --> UC1
+Admin --> UC2
+Admin --> UC3
+Admin --> UC4
+Admin --> UC5
+Admin --> UC6
+Admin --> UC7
+Admin --> UC8
+Admin --> UC9
+Admin --> UC10
+Admin --> UC11
+Admin --> UC12
+Admin --> UC13
+Admin --> UC14
+Admin --> UC15
+Admin --> UC16
+Admin --> UC17
+Admin --> UC18
+Admin --> UC19
+Admin --> UC20
+Admin --> UC21
+Admin --> UC22
+Admin --> UC23
+Admin --> UC24
+Admin --> UC25
+
+' Quan hệ với Staff
+Staff --> UC1
+Staff --> UC2
+Staff --> UC6
+Staff --> UC7
+Staff --> UC8
+Staff --> UC13
+Staff --> UC14
+Staff --> UC16
+Staff --> UC17
+Staff --> UC18
+Staff --> UC19
+Staff --> UC20
+Staff --> UC21
+Staff --> UC22
+
+' Include relationships
+UC3 ..> UC9 : <<include>>
+UC4 ..> UC9 : <<include>>
+UC10 ..> UC15 : <<include>>
+UC11 ..> UC15 : <<include>>
+UC16 ..> UC21 : <<include>>
+UC17 ..> UC21 : <<include>>
+
+' Extend relationships
+UC6 ..> UC8 : <<extend>>
+UC7 ..> UC8 : <<extend>>
+UC13 ..> UC14 : <<extend>>
+UC19 ..> UC20 : <<extend>>
+
+@enduml 

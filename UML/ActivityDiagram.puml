@@ -1,0 +1,145 @@
+@startuml "Sơ đồ Activity - Quy trình Quản lý Tù nhân"
+
+title Sơ đồ Activity - Quy trình Quản lý Tù nhân
+
+start
+
+:Đăng nhập hệ thống;
+
+if (Xác thực thành công?) then (Có)
+    :Hiển thị màn hình chính;
+    :Chọn chức năng quản lý;
+    
+    if (Chọn Quản lý Tù nhân?) then (Có)
+        :Hiển thị màn hình quản lý tù nhân;
+        :Tải danh sách tù nhân từ XML;
+        
+        repeat
+            :Chọn thao tác;
+            
+            if (Thêm tù nhân?) then (Có)
+                :Hiển thị form thêm tù nhân;
+                :Nhập thông tin tù nhân;
+                :Upload ảnh chân dung;
+                
+                if (Dữ liệu hợp lệ?) then (Có)
+                    :Lưu tù nhân vào danh sách;
+                    :Cập nhật file XML;
+                    :Hiển thị thông báo thành công;
+                else (Không)
+                    :Hiển thị thông báo lỗi;
+                    :Yêu cầu nhập lại;
+                endif
+                
+            elseif (Sửa tù nhân?) then (Có)
+                :Chọn tù nhân từ danh sách;
+                :Hiển thị form sửa thông tin;
+                :Cập nhật thông tin;
+                
+                if (Dữ liệu hợp lệ?) then (Có)
+                    :Cập nhật thông tin tù nhân;
+                    :Lưu vào file XML;
+                    :Hiển thị thông báo thành công;
+                else (Không)
+                    :Hiển thị thông báo lỗi;
+                endif
+                
+            elseif (Xóa tù nhân?) then (Có)
+                :Chọn tù nhân từ danh sách;
+                :Hiển thị hộp thoại xác nhận;
+                
+                if (Xác nhận xóa?) then (Có)
+                    :Xóa tù nhân khỏi danh sách;
+                    :Cập nhật file XML;
+                    :Hiển thị thông báo thành công;
+                else (Không)
+                    :Hủy thao tác xóa;
+                endif
+                
+            elseif (Tìm kiếm tù nhân?) then (Có)
+                :Nhập từ khóa tìm kiếm;
+                :Thực hiện tìm kiếm;
+                :Hiển thị kết quả;
+                
+            elseif (Xem chi tiết?) then (Có)
+                :Chọn tù nhân từ danh sách;
+                :Hiển thị thông tin chi tiết;
+                :Hiển thị ảnh chân dung;
+                
+            endif
+            
+        repeat while (Tiếp tục quản lý?) is (Có)
+        ->Không;
+        
+    elseif (Chọn Quản lý Trại giam?) then (Có)
+        :Hiển thị màn hình quản lý trại giam;
+        :Tải danh sách trại giam;
+        
+        repeat
+            :Chọn thao tác quản lý trại giam;
+            
+            if (Thêm trại giam?) then (Có)
+                :Nhập thông tin trại giam;
+                :Lưu vào danh sách;
+                :Cập nhật file XML;
+                
+            elseif (Sửa trại giam?) then (Có)
+                :Chọn trại giam;
+                :Cập nhật thông tin;
+                :Lưu vào file XML;
+                
+            elseif (Xóa trại giam?) then (Có)
+                if (Trại giam có tù nhân?) then (Có)
+                    :Hiển thị thông báo không thể xóa;
+                else (Không)
+                    :Xóa trại giam;
+                    :Cập nhật file XML;
+                endif
+                
+            endif
+            
+        repeat while (Tiếp tục?) is (Có)
+        ->Không;
+        
+    elseif (Chọn Quản lý Thăm nuôi?) then (Có)
+        :Hiển thị màn hình quản lý thăm nuôi;
+        :Tải danh sách thăm nuôi;
+        
+        repeat
+            :Chọn thao tác quản lý thăm nuôi;
+            
+            if (Đăng ký thăm nuôi?) then (Có)
+                :Chọn tù nhân;
+                :Nhập thông tin người thăm;
+                :Chọn ngày và giờ thăm;
+                :Lưu lịch thăm nuôi;
+                
+            elseif (Cập nhật thăm nuôi?) then (Có)
+                :Chọn lịch thăm nuôi;
+                :Cập nhật thông tin;
+                :Lưu thay đổi;
+                
+            elseif (Hủy thăm nuôi?) then (Có)
+                :Chọn lịch thăm nuôi;
+                :Xác nhận hủy;
+                :Cập nhật trạng thái;
+                
+            endif
+            
+        repeat while (Tiếp tục?) is (Có)
+        ->Không;
+        
+    endif
+    
+    :Quay về màn hình chính;
+    
+else (Không)
+    :Hiển thị thông báo lỗi đăng nhập;
+    :Yêu cầu nhập lại;
+endif
+
+:Đăng xuất hệ thống;
+
+stop
+
+@enduml 

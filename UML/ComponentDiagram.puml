@@ -1,0 +1,128 @@
+@startuml "Sơ đồ Component - Kiến trúc Hệ thống"
+
+title Sơ đồ Component - Kiến trúc Hệ thống Quản lý Tù nhân Trại giam
+
+package "Presentation Layer" {
+    [LoginView] as LV
+    [MainView] as MV
+    [PrisonerView] as PV
+    [JailView] as JV
+    [VisitView] as VV
+}
+
+package "Controller Layer" {
+    [LoginController] as LC
+    [MainController] as MC
+    [PrisonerController] as PC
+    [JailController] as JC
+    [VisitController] as VC
+}
+
+package "Business Logic Layer" {
+    [CheckLogin] as CL
+    [ManagerPrisoners] as MP
+    [ManagerJails] as MJ
+    [ManagerVisits] as MVIS
+}
+
+package "Data Access Layer" {
+    [FileUtils] as FU
+    [PrisonerXML] as PXML
+    [JailXML] as JXML
+    [VisitXML] as VXML
+}
+
+package "Entity Layer" {
+    [Person] as P
+    [Prisoner] as PR
+    [Jail] as J
+    [Visit] as V
+    [User] as U
+}
+
+package "External Libraries" {
+    [Java Swing] as JS
+    [JAXB] as JAXB
+    [JCalendar] as JCAL
+    [KGradientPanel] as KGP
+}
+
+package "Data Storage" {
+    database "Prisoners.xml" as PDB
+    database "Jails.xml" as JDB
+    database "Visits.xml" as VDB
+}
+
+' Presentation Layer connections
+LV --> LC : uses
+MV --> MC : uses
+PV --> PC : uses
+JV --> JC : uses
+VV --> VC : uses
+
+' Controller Layer connections
+LC --> CL : uses
+PC --> MP : uses
+JC --> MJ : uses
+VC --> MVIS : uses
+
+' Business Logic Layer connections
+MP --> PXML : uses
+MJ --> JXML : uses
+MVIS --> VXML : uses
+
+' Data Access Layer connections
+PXML --> FU : uses
+JXML --> FU : uses
+VXML --> FU : uses
+
+FU --> PDB : reads/writes
+FU --> JDB : reads/writes
+FU --> VDB : reads/writes
+
+' Entity Layer connections
+PR --> P : extends
+PXML --> PR : contains
+JXML --> J : contains
+VXML --> V : contains
+
+' External Library connections
+LV --> JS : uses
+MV --> JS : uses
+PV --> JS : uses
+JV --> JS : uses
+VV --> JS : uses
+
+PV --> JCAL : uses
+VV --> JCAL : uses
+
+LV --> KGP : uses
+MV --> KGP : uses
+
+PXML --> JAXB : uses
+JXML --> JAXB : uses
+VXML --> JAXB : uses
+
+' Interface definitions
+interface "ILoginService" as ILS
+interface "IPrisonerService" as IPS
+interface "IJailService" as IJS
+interface "IVisitService" as IVS
+interface "IFileService" as IFS
+
+CL ..|> ILS : implements
+MP ..|> IPS : implements
+MJ ..|> IJS : implements
+MVIS ..|> IVS : implements
+FU ..|> IFS : implements
+
+LC --> ILS : depends on
+PC --> IPS : depends on
+JC --> IJS : depends on
+VC --> IVS : depends on
+
+PXML --> IFS : depends on
+JXML --> IFS : depends on
+VXML --> IFS : depends on
+
+@enduml 

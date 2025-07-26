@@ -1,0 +1,38 @@
+@startuml "Sơ đồ Use Case - Xác thực và Đăng nhập"
+
+title Sơ đồ Use Case - Xác thực và Đăng nhập
+
+left to right direction
+
+actor "Quản lý viên" as Admin
+actor "Nhân viên trại giam" as Staff
+
+rectangle "Hệ thống Xác thực" {
+    usecase "Đăng nhập hệ thống" as UC1
+    usecase "Đăng xuất" as UC2
+    usecase "Thay đổi mật khẩu" as UC3
+    usecase "Khóa tài khoản" as UC4
+}
+
+' Quan hệ với Admin
+Admin --> UC1
+Admin --> UC2
+Admin --> UC3
+Admin --> UC4
+
+' Quan hệ với Staff
+Staff --> UC1
+Staff --> UC2
+Staff --> UC3
+
+note right of UC1
+  Kiểm tra username
+  và password
+end note
+
+note right of UC4
+  Chỉ Admin mới có
+  quyền khóa tài khoản
+end note
+
+@enduml 

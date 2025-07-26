@@ -3,6 +3,7 @@
 title Sơ đồ Class - Hệ thống Quản lý Tù nhân Trại giam
 
 ' Entity Classes
+
 abstract class Person {
     # int id
     # String name
